@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resident Dashboard - Society Maintenance Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="resident-dashboard">
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size: 1.5rem;">🏢</span>
+        <div>
+          <div class="sidebar-brand">Society Tracker</div>
+          <span class="sidebar-role-badge resident">Resident Portal</span>
+        </div>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/resident-dashboard.html" class="sidebar-link active">📊 Dashboard</a></li>
+        <li><a href="/raise-complaint.html" class="sidebar-link">➕ Raise Complaint</a></li>
+        <li><a href="/my-complaints.html" class="sidebar-link">📂 My Complaints</a></li>
+        <li><a href="/notice-board.html" class="sidebar-link">📢 Notice Board</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar" id="ui-user-avatar">R</div>
+          <div class="user-info-text">
+            <div class="user-name" id="ui-user-name">Resident</div>
+            <div class="user-flat" id="ui-user-flat">Flat: -</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm btn-block" style="margin-top: 0.75rem;" onclick="handleLogout()">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <h1 class="page-title-heading">Resident Dashboard</h1>
+        <div class="nav-actions">
+          <a href="/raise-complaint.html" class="btn btn-primary btn-sm">➕ New Complaint</a>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Stats Metric Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Total Raised</h3>
+              <div class="stat-value" id="stat-total">0</div>
+            </div>
+            <div class="stat-icon total">📋</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Open</h3>
+              <div class="stat-value" id="stat-open">0</div>
+            </div>
+            <div class="stat-icon open">⏳</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>In Progress</h3>
+              <div class="stat-value" id="stat-progress">0</div>
+            </div>
+            <div class="stat-icon progress">⚙️</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Resolved</h3>
+              <div class="stat-value" id="stat-resolved">0</div>
+            </div>
+            <div class="stat-icon resolved">✅</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+          <!-- Recent Complaints Table -->
+          <div class="card-container">
+            <div class="card-header-flex">
+              <h2 class="card-title">Recent Complaints</h2>
+              <a href="/my-complaints.html" class="btn btn-secondary btn-sm">View All</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Created Date</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-complaints-tbody">
+                  <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading complaints...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Important Notices Preview -->
+          <div class="card-container">
+            <div class="card-header-flex">
+              <h2 class="card-title">Society Notices</h2>
+              <a href="/notice-board.html" class="btn btn-secondary btn-sm">Notice Board</a>
+            </div>
+            <div id="dashboard-notices-container">
+              <p style="color: var(--text-muted);">Loading notices...</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/resident.js"></script>
+</body>
+</html>

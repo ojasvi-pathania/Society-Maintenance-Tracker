@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overdue Complaints - Society Maintenance Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="admin-overdue">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size: 1.5rem;">🛡️</span>
+        <div>
+          <div class="sidebar-brand">Society Tracker</div>
+          <span class="sidebar-role-badge admin">Admin Portal</span>
+        </div>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/admin-dashboard.html" class="sidebar-link">📊 Dashboard</a></li>
+        <li><a href="/admin-complaints.html" class="sidebar-link">📂 Manage Complaints</a></li>
+        <li><a href="/overdue-complaints.html" class="sidebar-link active">⚠️ Overdue Complaints</a></li>
+        <li><a href="/admin-notices.html" class="sidebar-link">📢 Notice Management</a></li>
+        <li><a href="/admin-settings.html" class="sidebar-link">⚙️ Settings</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar" id="ui-user-avatar" style="background: #dc2626;">A</div>
+          <div class="user-info-text">
+            <div class="user-name" id="ui-user-name">Admin</div>
+            <div class="user-flat" id="ui-user-flat">Society Administrator</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm btn-block" style="margin-top: 0.75rem;" onclick="handleLogout()">Logout</button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <h1 class="page-title-heading" style="color: #dc2626;">⚠️ Overdue Maintenance Complaints</h1>
+      </header>
+
+      <main class="content-body">
+        <div class="card-container" style="border: 2px solid #ef4444;">
+          <div class="card-header-flex">
+            <div>
+              <h2 class="card-title" style="color: #dc2626;">Overdue Tickets Requiring Immediate Action</h2>
+              <p id="threshold-info-header" style="font-size: 0.85rem; color: var(--text-muted);">
+                Displaying unresolved complaints older than configured threshold.
+              </p>
+            </div>
+            <a href="/admin-settings.html" class="btn btn-secondary btn-sm">Configure Threshold Days</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Resident / Flat</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Created Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="overdue-complaints-tbody">
+                <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Loading overdue tickets...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Action Modal -->
+  <div id="update-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Update Complaint Priority & Status</h2>
+      <form id="update-complaint-form">
+        <input type="hidden" id="update-complaint-id">
+
+        <div class="form-group">
+          <label class="form-label" for="update-status">Complaint Status</label>
+          <select id="update-status" class="form-control" required>
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="update-priority">Priority Level</label>
+          <select id="update-priority" class="form-control" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="update-note">Admin Action Note / Remark</label>
+          <textarea id="update-note" class="form-control" placeholder="Add an optional status change remark (e.g. Plumber assigned, Parts ordered, Resolved)..." style="min-height: 80px;"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeUpdateModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes & Log History</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complaint Details - Society Maintenance Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="complaint-detail">
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size: 1.5rem;">🏢</span>
+        <div>
+          <div class="sidebar-brand">Society Tracker</div>
+          <span class="sidebar-role-badge resident" id="ui-role-badge">Portal</span>
+        </div>
+      </div>
+      <ul class="sidebar-menu" id="ui-sidebar-menu">
+        <!-- Injected based on user role -->
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar" id="ui-user-avatar">U</div>
+          <div class="user-info-text">
+            <div class="user-name" id="ui-user-name">User</div>
+            <div class="user-flat" id="ui-user-flat">Flat: -</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm btn-block" style="margin-top: 0.75rem;" onclick="handleLogout()">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <h1 class="page-title-heading" id="detail-header-title">Complaint Details</h1>
+        <div class="nav-actions">
+          <button class="btn btn-secondary btn-sm" onclick="history.back()">← Back</button>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <div id="detail-loading" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+          Loading complaint details...
+        </div>
+
+        <div id="detail-error" class="hidden" style="background: #fee2e2; border: 1px solid #f87171; color: #991b1b; padding: 1.5rem; border-radius: var(--radius-lg); max-width: 600px; margin: 2rem auto; text-align: center;">
+          <h3 style="margin-bottom: 0.5rem;">Access Error</h3>
+          <p id="detail-error-msg">Failed to load complaint.</p>
+          <a href="/index.html" class="btn btn-secondary btn-sm" style="margin-top: 1rem;">Return to Dashboard</a>
+        </div>
+
+        <div id="detail-container" class="hidden" style="max-width: 850px; margin: 0 auto;">
+          <div class="card-container">
+            <!-- Header section -->
+            <div class="card-header-flex" style="border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+              <div>
+                <span id="detail-cmp-number" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main);">CMP-XXXX</span>
+                <span id="detail-category-tag" class="badge badge-low" style="margin-left: 0.5rem; font-size: 0.8rem;">Category</span>
+              </div>
+              <div id="detail-badges-container" style="display: flex; gap: 0.5rem; align-items: center;">
+                <!-- Status & Priority Badges -->
+              </div>
+            </div>
+
+            <!-- Resident & Complaint Info Grid -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+              <div>
+                <h4 style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">Complaint Description</h4>
+                <p id="detail-description" style="font-size: 0.95rem; line-height: 1.6; white-space: pre-line; background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border);"></p>
+              </div>
+
+              <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                <h4 style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.75rem;">Complaint Meta Info</h4>
+                <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <div><strong>Resident:</strong> <span id="detail-resident-name">-</span></div>
+                  <div><strong>Flat / Apartment:</strong> <span id="detail-flat-number">-</span></div>
+                  <div><strong>Contact Phone:</strong> <span id="detail-phone">-</span></div>
+                  <div><strong>Created Date:</strong> <span id="detail-created-at">-</span></div>
+                  <div><strong>Last Updated:</strong> <span id="detail-updated-at">-</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo Attachment Preview -->
+            <div id="detail-photo-section" class="hidden" style="margin-bottom: 1.5rem; background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border);">
+              <h4 style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">Attached Complaint Photo</h4>
+              <a id="detail-photo-link" href="#" target="_blank">
+                <img id="detail-photo-img" src="" alt="Complaint Photo" style="max-width: 100%; max-height: 280px; border-radius: var(--radius-md); border: 1px solid var(--border); object-fit: contain;">
+              </a>
+            </div>
+          </div>
+
+          <!-- Chronological History & Status Timeline -->
+          <div class="card-container">
+            <h3 class="card-title" style="margin-bottom: 0.5rem;">📜 Complaint Audit Trail & Status History</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Chronological record of status updates, actor attribution, and admin remarks.</p>
+
+            <div class="timeline" id="detail-timeline-container">
+              <!-- Timeline items injected here -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = checkAuthGuard();
+      if (!user) return;
+
+      renderUserProfileUI(user);
+
+      // Render Sidebar according to role
+      const menuEl = document.getElementById('ui-sidebar-menu');
+      const badgeEl = document.getElementById('ui-role-badge');
+
+      if (user.role === 'ADMIN') {
+        badgeEl.textContent = 'Admin Portal';
+        badgeEl.className = 'sidebar-role-badge admin';
+        menuEl.innerHTML = `
+          <li><a href="/admin-dashboard.html" class="sidebar-link">📊 Dashboard</a></li>
+          <li><a href="/admin-complaints.html" class="sidebar-link active">📂 Manage Complaints</a></li>
+          <li><a href="/overdue-complaints.html" class="sidebar-link">⚠️ Overdue Complaints</a></li>
+          <li><a href="/admin-notices.html" class="sidebar-link">📢 Notice Management</a></li>
+          <li><a href="/admin-settings.html" class="sidebar-link">⚙️ Settings</a></li>
+        `;
+      } else {
+        badgeEl.textContent = 'Resident Portal';
+        badgeEl.className = 'sidebar-role-badge resident';
+        menuEl.innerHTML = `
+          <li><a href="/resident-dashboard.html" class="sidebar-link">📊 Dashboard</a></li>
+          <li><a href="/raise-complaint.html" class="sidebar-link">➕ Raise Complaint</a></li>
+          <li><a href="/my-complaints.html" class="sidebar-link active">📂 My Complaints</a></li>
+          <li><a href="/notice-board.html" class="sidebar-link">📢 Notice Board</a></li>
+        `;
+      }
+
+      // Extract complaint ID from URL query string ?id=X
+      const urlParams = new URLSearchParams(window.location.search);
+      const complaintId = urlParams.get('id');
+
+      if (!complaintId) {
+        document.getElementById('detail-loading').classList.add('hidden');
+        document.getElementById('detail-error').classList.remove('hidden');
+        document.getElementById('detail-error-msg').textContent = 'No complaint ID specified in URL.';
+        return;
+      }
+
+      const res = await apiFetch(`/complaints/${complaintId}`);
+
+      document.getElementById('detail-loading').classList.add('hidden');
+
+      if (!res || !res.success) {
+        document.getElementById('detail-error').classList.remove('hidden');
+        document.getElementById('detail-error-msg').textContent = res ? res.message : 'Error loading complaint.';
+        return;
+      }
+
+      const c = res.complaint;
+      const history = res.history || [];
+
+      document.getElementById('detail-container').classList.remove('hidden');
+      document.getElementById('detail-cmp-number').textContent = c.complaint_number;
+      document.getElementById('detail-header-title').textContent = `Complaint Details - ${c.complaint_number}`;
+      document.getElementById('detail-category-tag').textContent = c.category;
+      document.getElementById('detail-description').textContent = c.description;
+
+      document.getElementById('detail-resident-name').textContent = c.resident_name;
+      document.getElementById('detail-flat-number').textContent = c.flat_number;
+      document.getElementById('detail-phone').textContent = c.resident_phone;
+      document.getElementById('detail-created-at').textContent = formatDate(c.created_at);
+      document.getElementById('detail-updated-at').textContent = formatDate(c.updated_at);
+
+      // Render Badges
+      const badgesContainer = document.getElementById('detail-badges-container');
+      badgesContainer.innerHTML = getPriorityBadgeHtml(c.priority) + ' ' + getStatusBadgeHtml(c.status, c.is_overdue);
+
+      // Render Photo if available
+      if (c.photo_url) {
+        const photoSec = document.getElementById('detail-photo-section');
+        const photoLink = document.getElementById('detail-photo-link');
+        const photoImg = document.getElementById('detail-photo-img');
+        photoLink.href = c.photo_url;
+        photoImg.src = c.photo_url;
+        photoSec.classList.remove('hidden');
+      }
+
+      // Render History Timeline
+      const timelineContainer = document.getElementById('detail-timeline-container');
+      if (history.length === 0) {
+        timelineContainer.innerHTML = `<p style="color: var(--text-muted);">No history records.</p>`;
+      } else {
+        timelineContainer.innerHTML = history.map(h => {
+          let transitionText = '';
+          if (h.previous_status === 'N/A' || h.previous_status === 'None') {
+            transitionText = `<strong>Complaint created — Status: <span style="color: var(--primary);">${h.new_status}</span></strong>`;
+          } else {
+            transitionText = `Status updated: <strong>${h.previous_status}</strong> → <strong style="color: var(--primary);">${h.new_status}</strong>`;
+          }
+
+          return `
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <span class="timeline-actor">${h.actor_name} <small style="color: var(--text-muted);">(${h.actor_role})</small></span>
+                  <span class="timeline-time">${formatDate(h.created_at)}</span>
+                </div>
+                <div class="timeline-body">
+                  ${transitionText}
+                  ${h.note ? `<div style="margin-top: 0.4rem; font-style: italic; background: #ffffff; padding: 6px 12px; border-radius: 4px; border-left: 3px solid var(--primary);">Note: "${h.note}"</div>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    });
+  </script>
+</body>
+</html>

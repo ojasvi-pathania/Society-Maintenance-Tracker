@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Society Maintenance Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="logo-badge">🏢</div>
+        <h1>Society Maintenance Tracker</h1>
+        <p>Log in to access resident services or administration portal</p>
+      </div>
+
+      <div class="auth-toggle">
+        <a href="/login.html" class="auth-toggle-btn active">Sign In</a>
+        <a href="/register.html" class="auth-toggle-btn">Register Resident</a>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email Address</label>
+          <input type="email" id="login-email" class="form-control" placeholder="resident@society.com or admin@society.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">Sign In</button>
+      </form>
+
+      <div style="margin-top: 1.5rem; background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); font-size: 0.8rem; color: var(--text-muted);">
+        <strong>Demo Accounts (Seeded for testing):</strong><br>
+        • Resident: <code>resident@society.com</code> / <code>resident123</code><br>
+        • Admin: <code>admin@society.com</code> / <code>admin123</code>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

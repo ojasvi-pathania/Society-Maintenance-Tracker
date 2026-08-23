@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage All Complaints - Society Maintenance Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="admin-complaints">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size: 1.5rem;">🛡️</span>
+        <div>
+          <div class="sidebar-brand">Society Tracker</div>
+          <span class="sidebar-role-badge admin">Admin Portal</span>
+        </div>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/admin-dashboard.html" class="sidebar-link">📊 Dashboard</a></li>
+        <li><a href="/admin-complaints.html" class="sidebar-link active">📂 Manage Complaints</a></li>
+        <li><a href="/overdue-complaints.html" class="sidebar-link">⚠️ Overdue Complaints</a></li>
+        <li><a href="/admin-notices.html" class="sidebar-link">📢 Notice Management</a></li>
+        <li><a href="/admin-settings.html" class="sidebar-link">⚙️ Settings</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar" id="ui-user-avatar" style="background: #dc2626;">A</div>
+          <div class="user-info-text">
+            <div class="user-name" id="ui-user-name">Admin</div>
+            <div class="user-flat" id="ui-user-flat">Society Administrator</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm btn-block" style="margin-top: 0.75rem;" onclick="handleLogout()">Logout</button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <h1 class="page-title-heading">Manage Society Maintenance Complaints</h1>
+      </header>
+
+      <main class="content-body">
+        <div class="card-container">
+          <div class="card-header-flex">
+            <h2 class="card-title">All Resident Complaints</h2>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <input type="text" id="filter-search" class="form-control" placeholder="Search ID, Flat, Description..." style="width: 220px; padding: 0.4rem 0.8rem;">
+
+              <select id="filter-status" class="form-control" style="width: auto; padding: 0.4rem 0.8rem;">
+                <option value="">All Statuses</option>
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+
+              <select id="filter-category" class="form-control" style="width: auto; padding: 0.4rem 0.8rem;">
+                <option value="">All Categories</option>
+                <option value="Plumbing">Plumbing</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Lift">Lift</option>
+                <option value="Cleaning">Cleaning</option>
+                <option value="Security">Security</option>
+                <option value="Water Supply">Water Supply</option>
+                <option value="Parking">Parking</option>
+                <option value="Common Area">Common Area</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Resident / Flat</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Date Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-complaints-tbody">
+                <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Loading complaints...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Admin Action Modal -->
+  <div id="update-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Update Complaint Priority & Status</h2>
+      <form id="update-complaint-form">
+        <input type="hidden" id="update-complaint-id">
+
+        <div class="form-group">
+          <label class="form-label" for="update-status">Complaint Status</label>
+          <select id="update-status" class="form-control" required>
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="update-priority">Priority Level</label>
+          <select id="update-priority" class="form-control" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="update-note">Admin Action Note / Remark</label>
+          <textarea id="update-note" class="form-control" placeholder="Add an optional status change remark (e.g. Plumber assigned, Parts ordered, Resolved)..." style="min-height: 80px;"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeUpdateModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes & Log History</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Timeline Detail Modal -->
+  <div id="detail-modal" class="modal-backdrop hidden">
+    <div class="modal-card" style="max-width: 650px;" id="detail-modal-content"></div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/admin.js"></script>
+  <script src="/js/resident.js"></script>
+</body>
+</html>

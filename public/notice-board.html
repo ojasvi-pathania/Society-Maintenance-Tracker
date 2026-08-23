@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Society Notice Board - Society Maintenance Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="notice-board">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size: 1.5rem;">🏢</span>
+        <div>
+          <div class="sidebar-brand">Society Tracker</div>
+          <span class="sidebar-role-badge resident">Resident Portal</span>
+        </div>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/resident-dashboard.html" class="sidebar-link">📊 Dashboard</a></li>
+        <li><a href="/raise-complaint.html" class="sidebar-link">➕ Raise Complaint</a></li>
+        <li><a href="/my-complaints.html" class="sidebar-link">📂 My Complaints</a></li>
+        <li><a href="/notice-board.html" class="sidebar-link active">📢 Notice Board</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar" id="ui-user-avatar">R</div>
+          <div class="user-info-text">
+            <div class="user-name" id="ui-user-name">Resident</div>
+            <div class="user-flat" id="ui-user-flat">Flat: -</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm btn-block" style="margin-top: 0.75rem;" onclick="handleLogout()">Logout</button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <h1 class="page-title-heading">Society Notice Board</h1>
+      </header>
+
+      <main class="content-body">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.2rem; font-weight: 700; color: var(--text-main);">Official Announcements & Circulars</h2>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Important announcements published by Admin are pinned at the top.</p>
+        </div>
+
+        <div id="notice-board-grid" class="notice-grid">
+          <p style="grid-column: 1/-1; color: var(--text-muted);">Loading notices...</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/resident.js"></script>
+</body>
+</html>

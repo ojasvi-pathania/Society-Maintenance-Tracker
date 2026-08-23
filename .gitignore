@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Environment Files & Secrets
+.env
+.env.local
+.env.production
+
+# Database Files
+database.db
+*.db
+*.db-journal
+
+# Uploaded Files
+public/uploads/*
+!public/uploads/.gitkeep
+
+# System & Editor Files
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

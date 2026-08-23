@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Society Maintenance Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="admin-dashboard">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size: 1.5rem;">🛡️</span>
+        <div>
+          <div class="sidebar-brand">Society Tracker</div>
+          <span class="sidebar-role-badge admin">Admin Portal</span>
+        </div>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/admin-dashboard.html" class="sidebar-link active">📊 Dashboard</a></li>
+        <li><a href="/admin-complaints.html" class="sidebar-link">📂 Manage Complaints</a></li>
+        <li><a href="/overdue-complaints.html" class="sidebar-link">⚠️ Overdue Complaints</a></li>
+        <li><a href="/admin-notices.html" class="sidebar-link">📢 Notice Management</a></li>
+        <li><a href="/admin-settings.html" class="sidebar-link">⚙️ Settings</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar" id="ui-user-avatar" style="background: #dc2626;">A</div>
+          <div class="user-info-text">
+            <div class="user-name" id="ui-user-name">Admin</div>
+            <div class="user-flat" id="ui-user-flat">Society Administrator</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm btn-block" style="margin-top: 0.75rem;" onclick="handleLogout()">Logout</button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <h1 class="page-title-heading">Admin Operations Dashboard</h1>
+        <div class="nav-actions">
+          <a href="/admin-complaints.html" class="btn btn-primary btn-sm">Manage All Complaints</a>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Stats Metric Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Total Complaints</h3>
+              <div class="stat-value" id="stat-total">0</div>
+            </div>
+            <div class="stat-icon total">📋</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Open</h3>
+              <div class="stat-value" id="stat-open">0</div>
+            </div>
+            <div class="stat-icon open">⏳</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>In Progress</h3>
+              <div class="stat-value" id="stat-progress">0</div>
+            </div>
+            <div class="stat-icon progress">⚙️</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Resolved</h3>
+              <div class="stat-value" id="stat-resolved">0</div>
+            </div>
+            <div class="stat-icon resolved">✅</div>
+          </div>
+
+          <!-- Clickable Overdue Card -->
+          <a href="/overdue-complaints.html" class="stat-card" style="border: 2px solid #ef4444; text-decoration: none;">
+            <div class="stat-info">
+              <h3>Overdue Alert</h3>
+              <div class="stat-value" id="stat-overdue" style="color: #dc2626;">0</div>
+            </div>
+            <div class="stat-icon overdue">⚠️</div>
+          </a>
+        </div>
+
+        <!-- Visual Analytics & Overdue Row -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+          <!-- Overdue Complaints Table Preview -->
+          <div class="card-container" style="margin-bottom: 0;">
+            <div class="card-header-flex">
+              <div>
+                <h2 class="card-title" style="color: #dc2626;">🚨 Priority Overdue Complaints</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Unresolved tickets exceeding overdue threshold</p>
+              </div>
+              <a href="/overdue-complaints.html" class="btn btn-secondary btn-sm">View Overdue Section</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Resident / Flat</th>
+                    <th>Category</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-overdue-tbody">
+                  <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Loading overdue tickets...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Status Distribution Visual Bar Chart -->
+          <div class="card-container" style="margin-bottom: 0;">
+            <div class="card-header-flex">
+              <h2 class="card-title">📊 Status Distribution</h2>
+            </div>
+            <div id="status-chart-container" style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <!-- Progress bars rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Complaints by Category Breakdown -->
+        <div class="card-container">
+          <div class="card-header-flex">
+            <h2 class="card-title">Complaints by Category</h2>
+          </div>
+          <div id="category-breakdown-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+            <p style="color: var(--text-muted);">Loading category breakdown...</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Admin Action Modal -->
+  <div id="update-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Update Complaint Priority & Status</h2>
+      <form id="update-complaint-form">
+        <input type="hidden" id="update-complaint-id">
+
+        <div class="form-group">
+          <label class="form-label" for="update-status">Complaint Status</label>
+          <select id="update-status" class="form-control" required>
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="update-priority">Priority Level</label>
+          <select id="update-priority" class="form-control" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="update-note">Admin Action Note / Remark</label>
+          <textarea id="update-note" class="form-control" placeholder="Add an optional status change remark (e.g. Plumber assigned, Parts ordered, Resolved)..." style="min-height: 80px;"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeUpdateModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes & Log History</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Timeline Modal -->
+  <div id="detail-modal" class="modal-backdrop hidden">
+    <div class="modal-card" style="max-width: 650px;" id="detail-modal-content"></div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/admin.js"></script>
+  <script src="/js/resident.js"></script>
+</body>
+</html>

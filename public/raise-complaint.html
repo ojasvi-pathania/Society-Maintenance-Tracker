@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raise Maintenance Complaint - Society Maintenance Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="raise-complaint">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size: 1.5rem;">🏢</span>
+        <div>
+          <div class="sidebar-brand">Society Tracker</div>
+          <span class="sidebar-role-badge resident">Resident Portal</span>
+        </div>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/resident-dashboard.html" class="sidebar-link">📊 Dashboard</a></li>
+        <li><a href="/raise-complaint.html" class="sidebar-link active">➕ Raise Complaint</a></li>
+        <li><a href="/my-complaints.html" class="sidebar-link">📂 My Complaints</a></li>
+        <li><a href="/notice-board.html" class="sidebar-link">📢 Notice Board</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar" id="ui-user-avatar">R</div>
+          <div class="user-info-text">
+            <div class="user-name" id="ui-user-name">Resident</div>
+            <div class="user-flat" id="ui-user-flat">Flat: -</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm btn-block" style="margin-top: 0.75rem;" onclick="handleLogout()">Logout</button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <h1 class="page-title-heading">Raise Maintenance Complaint</h1>
+      </header>
+
+      <main class="content-body">
+        <div class="card-container" style="max-width: 680px; margin: 0 auto;">
+          <h2 class="card-title" style="margin-bottom: 0.5rem;">New Maintenance Ticket</h2>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+            Fill out the complaint details below. Your ticket will be logged with initial status <strong>Open</strong> and priority <strong>Low</strong>.
+          </p>
+
+          <form id="raise-complaint-form" enctype="multipart/form-data">
+            <div class="form-group">
+              <label class="form-label" for="cmp-category">Complaint Category <span style="color: #ef4444;">*</span></label>
+              <select id="cmp-category" class="form-control" required>
+                <option value="" disabled selected>Select Category...</option>
+                <option value="Plumbing">Plumbing</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Lift">Lift</option>
+                <option value="Cleaning">Cleaning</option>
+                <option value="Security">Security</option>
+                <option value="Water Supply">Water Supply</option>
+                <option value="Parking">Parking</option>
+                <option value="Common Area">Common Area</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cmp-description">Detailed Description <span style="color: #ef4444;">*</span></label>
+              <textarea id="cmp-description" class="form-control" placeholder="Please describe the maintenance issue in detail (location, exact problem)..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cmp-photo">Optional Photo Attachment</label>
+              <input type="file" id="cmp-photo" class="form-control" accept="image/png, image/jpeg, image/jpg, image/webp">
+              <small style="color: var(--text-muted); display: block; margin-top: 0.25rem;">Supported formats: JPEG, PNG, WEBP (Max size: 5MB)</small>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+              <button type="submit" id="submit-btn" class="btn btn-primary" style="flex: 1;">Submit Complaint</button>
+              <a href="/resident-dashboard.html" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/resident.js"></script>
+</body>
+</html>

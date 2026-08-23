@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Society Maintenance Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <script src="/js/app.js"></script>
+  <script>
+    const user = getCurrentUser();
+    if (user) {
+      if (user.role === 'ADMIN') {
+        window.location.href = '/admin-dashboard.html';
+      } else {
+        window.location.href = '/resident-dashboard.html';
+      }
+    } else {
+      window.location.href = '/login.html';
+    }
+  </script>
+</body>
+</html>
