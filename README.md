@@ -4,6 +4,14 @@ A clean, professional, responsive full-stack web application designed for apartm
 
 ---
 
+## 🌐 Live Demo
+
+**Live Application:** [Open Society Maintenance Tracker](https://society-maintenance-tracker-production-fd51.up.railway.app/login.html)
+
+The application is deployed live on **Railway** with persistent database storage, role-based authorization, and instant online access.
+
+---
+
 ## 📌 Project Overview
 
 **Society Maintenance Tracker** provides a role-based digital management system for residential complexes. It streamlines how apartment residents raise, track, and monitor maintenance issues while empowering society administrators to manage complaints, change ticket status/priority, track overdue SLA breaches, publish pinned society notices, and broadcast email notifications.
