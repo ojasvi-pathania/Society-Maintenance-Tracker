@@ -97,7 +97,7 @@ Access the application in your web browser at: **`http://localhost:3000`**
 
 ## 🔑 Demo Accounts (For Academic Demonstration Only)
 
-These pre-seeded accounts are provided for local testing and evaluation:
+These demonstration accounts are provided for academic evaluation and testing:
 
 - **Admin Account**:
   - Email: `admin@society.com`
@@ -174,7 +174,7 @@ society-maintenance-tracker/
 │   ├── api_documentation.md   # API endpoint documentation
 │   ├── database_schema.md     # Relational database schema reference
 │   ├── system_design.md       # System design write-up (< 800 words)
-│   └── screenshots/           # Screenshot placeholders for submission
+│   └── screenshots/           # Application screenshots used in README
 └── public/
     ├── css/
     │   └── style.css          # Design system stylesheet
