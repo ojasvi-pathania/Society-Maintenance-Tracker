@@ -202,51 +202,37 @@ society-maintenance-tracker/
 
 ---
 
-## 🌐 Production Deployment Guide (Render.com)
+## 📸 Application Screenshots
 
-- **Selected Host**: **Render.com Web Service** (PaaS)
-- **Persistent Disk Volume**: Mount path `/data` (ensures `database.db` and uploaded photos persist across server restarts and deployments).
+### 🔐 Login
+![Login Page](docs/screenshots/login-page.png)
 
-### Step-by-Step Deployment Instructions:
-1. **Connect GitHub**: Sign up at [Render.com](https://render.com) and connect your GitHub repository.
-2. **Create Web Service**: Select **New Web Service** and select your repository (`main` branch).
-3. **Set Build & Start Commands**:
-   - **Runtime**: `Node`
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-4. **Add Persistent Disk**:
-   - In Render Web Service settings, click **Disks** → **Add Disk**.
-   - **Name**: `society-data`
-   - **Mount Path**: `/data`
-   - **Size**: `1 GB`
-5. **Set Environment Variables**:
-   Add the following in Render Environment settings:
-   - `NODE_ENV`: `production`
-   - `PORT`: `3000`
-   - `JWT_SECRET`: `<your-random-production-secret>`
-   - `DATABASE_PATH`: `/data/database.db`
-   - `UPLOAD_DIR`: `/data/uploads`
-   - `SMTP_HOST`: `smtp.example.com`
-   - `SMTP_PORT`: `587`
-   - `SMTP_USER`: `<your-smtp-user>`
-   - `SMTP_PASS`: `<your-smtp-pass>`
-   - `FROM_EMAIL`: `no-reply@society-maintenance.com`
-6. **Deploy**: Click **Save Changes & Deploy**. Your application will be live at `https://your-app-name.onrender.com`.
+### 👤 Resident Dashboard
+![Resident Dashboard](docs/screenshots/resident-dashboard.png)
 
----
+### 📝 Raise a Complaint
+![Raise Complaint](docs/screenshots/raise-complaint.png)
 
-## 🖼️ Application Screenshots
+### 🔎 Complaint Details
+![Complaint Details](docs/screenshots/complaint-details.png)
 
-*(Placeholders for documentation screenshots)*
-1. **Login View**: `docs/screenshots/01-login.png`
-2. **Resident Dashboard**: `docs/screenshots/02-resident-dashboard.png`
-3. **Raise Complaint Form**: `docs/screenshots/03-raise-complaint.png`
-4. **My Complaints List**: `docs/screenshots/04-my-complaints.png`
-5. **Complaint Details & Timeline**: `docs/screenshots/05-complaint-details.png`
-6. **Resident Notice Board**: `docs/screenshots/06-resident-notices.png`
-7. **Admin Dashboard Analytics**: `docs/screenshots/07-admin-dashboard.png`
-8. **Admin Complaints Management**: `docs/screenshots/08-admin-complaints.png`
-9. **Admin Update Modal**: `docs/screenshots/09-admin-update-modal.png`
-10. **Overdue Complaints View**: `docs/screenshots/10-overdue-complaints.png`
-11. **Admin Notice Management**: `docs/screenshots/11-admin-notices.png`
-12. **Admin Settings**: `docs/screenshots/12-admin-settings.png`
+### 📢 Resident Notice Board
+![Resident Notice Board](docs/screenshots/resident-notice-board.png)
+
+### 🛡️ Admin Dashboard
+![Admin Dashboard](docs/screenshots/admin-dashboard.png)
+
+### 📋 Manage Complaints
+![Manage Complaints](docs/screenshots/manage-complaints.png)
+
+### ✏️ Update Complaint Status & Priority
+![Update Complaint](docs/screenshots/admin-update-complaint.png)
+
+### ⚠️ Overdue Complaint Monitoring
+![Overdue Complaints](docs/screenshots/overdue-complaints.png)
+
+### 📣 Notice Management
+![Notice Management](docs/screenshots/notice-management.png)
+
+### ⚙️ Admin Settings
+![Admin Settings](docs/screenshots/admin-settings.png)
