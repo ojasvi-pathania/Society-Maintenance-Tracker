@@ -205,34 +205,34 @@ society-maintenance-tracker/
 ## 📸 Application Screenshots
 
 ### 🔐 Login
-![Login Page](docs/screenshots/login-page.png)
+![Login Page](docs/screenshots/login%20page.png)
 
 ### 👤 Resident Dashboard
-![Resident Dashboard](docs/screenshots/resident-dashboard.png)
+![Resident Dashboard](docs/screenshots/resident%20dashboard2.png)
 
 ### 📝 Raise a Complaint
-![Raise Complaint](docs/screenshots/raise-complaint.png)
+![Raise Complaint](docs/screenshots/raise%20complain.png)
 
 ### 🔎 Complaint Details
-![Complaint Details](docs/screenshots/complaint-details.png)
+![Complaint Details](docs/screenshots/complaint%20detials.png)
 
 ### 📢 Resident Notice Board
-![Resident Notice Board](docs/screenshots/resident-notice-board.png)
+![Resident Notice Board](docs/screenshots/resident%20notice.png)
 
 ### 🛡️ Admin Dashboard
-![Admin Dashboard](docs/screenshots/admin-dashboard.png)
+![Admin Dashboard](docs/screenshots/admin%20dashboard.png)
 
 ### 📋 Manage Complaints
-![Manage Complaints](docs/screenshots/manage-complaints.png)
+![Manage Complaints](docs/screenshots/Manage%20Complaint.png)
 
 ### ✏️ Update Complaint Status & Priority
-![Update Complaint](docs/screenshots/admin-update-complaint.png)
+![Update Complaint](docs/screenshots/Admin%20Update%20Complaint%20modal.png)
 
 ### ⚠️ Overdue Complaint Monitoring
-![Overdue Complaints](docs/screenshots/overdue-complaints.png)
+![Overdue Complaints](docs/screenshots/Overdue%20Complaints.png)
 
 ### 📣 Notice Management
-![Notice Management](docs/screenshots/notice-management.png)
+![Notice Management](docs/screenshots/Notice%20Management%20after%20publishing.png)
 
 ### ⚙️ Admin Settings
-![Admin Settings](docs/screenshots/admin-settings.png)
+![Admin Settings](docs/screenshots/admin%20settings.png)
