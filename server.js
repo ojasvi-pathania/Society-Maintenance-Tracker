@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const cookieParser = require('cookie-parser');
 
+const db = require('./config/database');
 const authRoutes = require('./routes/auth');
 const complaintsRoutes = require('./routes/complaints');
 const noticesRoutes = require('./routes/notices');
@@ -48,8 +49,8 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`=======================================================`);
   console.log(`  Society Maintenance Tracker Server running on port ${PORT}`);
-  console.log(`  Database Path: ${process.env.DATABASE_PATH || 'database.db'}`);
-  console.log(`  Upload Directory: ${uploadsDir}`);
+  console.log(`  Active Resolved Database Path: ${db.resolvedPath}`);
+  console.log(`  Active Upload Directory: ${uploadsDir}`);
   console.log(`  Access Application: http://localhost:${PORT}`);
   console.log(`=======================================================`);
 });

@@ -132,9 +132,13 @@ router.get('/', verifyToken, (req, res) => {
     const thresholdDays = getOverdueThresholdDays();
 
     let sql = `
-      SELECT c.*, u.name as resident_name, u.flat_number, u.email as resident_email, u.phone as resident_phone
+      SELECT c.*, 
+             COALESCE(u.name, 'Resident') as resident_name, 
+             COALESCE(u.flat_number, 'N/A') as flat_number, 
+             COALESCE(u.email, '') as resident_email, 
+             COALESCE(u.phone, '') as resident_phone
       FROM complaints c
-      JOIN users u ON c.resident_id = u.id
+      LEFT JOIN users u ON c.resident_id = u.id
       WHERE 1=1
     `;
     const params = [];
@@ -241,9 +245,13 @@ router.get('/:id', verifyToken, (req, res) => {
     const complaintId = req.params.id;
 
     const complaint = db.prepare(`
-      SELECT c.*, u.name as resident_name, u.email as resident_email, u.phone as resident_phone, u.flat_number
+      SELECT c.*, 
+             COALESCE(u.name, 'Resident') as resident_name, 
+             COALESCE(u.email, '') as resident_email, 
+             COALESCE(u.phone, '') as resident_phone, 
+             COALESCE(u.flat_number, 'N/A') as flat_number
       FROM complaints c
-      JOIN users u ON c.resident_id = u.id
+      LEFT JOIN users u ON c.resident_id = u.id
       WHERE c.id = ?
     `).get(complaintId);
 
@@ -257,9 +265,11 @@ router.get('/:id', verifyToken, (req, res) => {
     }
 
     const history = db.prepare(`
-      SELECT h.*, u.name as actor_name, u.role as actor_role
+      SELECT h.*, 
+             COALESCE(u.name, 'User') as actor_name, 
+             COALESCE(u.role, 'USER') as actor_role
       FROM complaint_history h
-      JOIN users u ON h.actor_id = u.id
+      LEFT JOIN users u ON h.actor_id = u.id
       WHERE h.complaint_id = ?
       ORDER BY h.created_at ASC
     `).all(complaintId);
@@ -297,7 +307,7 @@ router.put('/:id/status-priority', requireAdmin, async (req, res) => {
     const existing = db.prepare(`
       SELECT c.*, u.email as resident_email, u.name as resident_name
       FROM complaints c
-      JOIN users u ON c.resident_id = u.id
+      LEFT JOIN users u ON c.resident_id = u.id
       WHERE c.id = ?
     `).get(complaintId);
 

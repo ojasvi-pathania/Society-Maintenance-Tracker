@@ -1,6 +1,7 @@
 const { DatabaseSync } = require('node:sqlite');
 const path = require('path');
 const fs = require('fs');
+const bcrypt = require('bcryptjs');
 
 // Configurable database path for production persistence (e.g. /data/database.db)
 const dbPath = process.env.DATABASE_PATH || path.join(__dirname, '..', 'database.db');
@@ -80,6 +81,83 @@ function initSchema() {
   }
 }
 
+async function autoSeedDefaultAccounts() {
+  try {
+    const adminEmail = 'admin@society.com';
+    const residentEmail = 'resident@society.com';
+
+    const existingAdmin = db.prepare('SELECT id FROM users WHERE email = ?').get(adminEmail);
+    const existingResident = db.prepare('SELECT id FROM users WHERE email = ?').get(residentEmail);
+
+    let adminId = existingAdmin ? existingAdmin.id : null;
+    let residentId = existingResident ? existingResident.id : null;
+
+    if (!existingAdmin) {
+      const adminHash = await bcrypt.hash('admin123', 10);
+      const res = db.prepare(`
+        INSERT INTO users (name, email, phone, flat_number, password_hash, role)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `).run('Society Admin', adminEmail, '9876543210', 'A-000', adminHash, 'ADMIN');
+      adminId = res.lastInsertRowid;
+      console.log('⚡ Auto-seeded default Admin account: admin@society.com / admin123');
+    }
+
+    if (!existingResident) {
+      const residentHash = await bcrypt.hash('resident123', 10);
+      const res = db.prepare(`
+        INSERT INTO users (name, email, phone, flat_number, password_hash, role)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `).run('John Resident', residentEmail, '9876543211', 'B-104', residentHash, 'RESIDENT');
+      residentId = res.lastInsertRowid;
+      console.log('⚡ Auto-seeded default Resident account: resident@society.com / resident123');
+    }
+
+    // Seed notices if empty
+    const countNotices = db.prepare('SELECT COUNT(*) as count FROM notices').get().count;
+    if (countNotices === 0 && adminId) {
+      db.prepare(`
+        INSERT INTO notices (title, content, is_important, created_by)
+        VALUES (?, ?, ?, ?)
+      `).run('Annual General Meeting Notice', 'The Annual General Meeting (AGM) will be held on Sunday at 10:00 AM in the Main Clubhouse. All residents are requested to attend.', 1, adminId);
+
+      db.prepare(`
+        INSERT INTO notices (title, content, is_important, created_by)
+        VALUES (?, ?, ?, ?)
+      `).run('Water Tank Cleaning Scheduled', 'Overhead water tanks will be cleaned tomorrow from 9:00 AM to 2:00 PM. Water supply will be temporarily paused.', 0, adminId);
+    }
+
+    // Seed initial complaints if empty
+    const countComplaints = db.prepare('SELECT COUNT(*) as count FROM complaints').get().count;
+    if (countComplaints === 0 && residentId) {
+      const cmp1 = db.prepare(`
+        INSERT INTO complaints (complaint_number, resident_id, category, description, priority, status)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `).run('CMP-20260824-101', residentId, 'Plumbing', 'Water leak from the ceiling in the master bathroom. Requires urgent plumber attention.', 'High', 'Open');
+
+      db.prepare(`
+        INSERT INTO complaint_history (complaint_id, actor_id, previous_status, new_status, note)
+        VALUES (?, ?, ?, ?, ?)
+      `).run(cmp1.lastInsertRowid, residentId, 'N/A', 'Open', 'Complaint created by resident.');
+
+      const pastDate = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString();
+      const cmp2 = db.prepare(`
+        INSERT INTO complaints (complaint_number, resident_id, category, description, priority, status, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      `).run('CMP-20260819-098', residentId, 'Electrical', 'Corridor light flickering outside Flat B-104.', 'Medium', 'Open', pastDate, pastDate);
+
+      db.prepare(`
+        INSERT INTO complaint_history (complaint_id, actor_id, previous_status, new_status, note, created_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `).run(cmp2.lastInsertRowid, residentId, 'N/A', 'Open', 'Complaint registered.', pastDate);
+    }
+  } catch (err) {
+    console.error('Auto-seed error:', err);
+  }
+}
+
 initSchema();
+autoSeedDefaultAccounts();
+
+db.resolvedPath = path.resolve(dbPath);
 
 module.exports = db;
